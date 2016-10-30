@@ -1,0 +1,36 @@
+The homework 2 asks to design a prefix parser. In order to achieve the goal, three ancillary functions are designed:
+
+1. terminal_matcher 
+Input: terminal symbol, acceptor, derivation and fragment. 
+It checks whether the given terminal symbol match the first element in the fragment. If they¡¯re matched, it will return whatever the acceptor return. Otherwise, it¡¯ll return None.
+
+2. and_matcher 
+Input: right hand side, acceptor, grammar rules, derivation and fragment
+If the right hand side finally derives the prefix of the fragment, it¡¯ll return whatever the acceptor return. Otherwise, it¡¯ll return None.
+
+3. or_matcher
+Input: nonterminal symbol, alternative list, acceptor, grammar rules, derivation and fragment
+It will return None when no prefix is found or acceptor returns None for each right hand side corresponding to the given nonterminal symbol.
+
+Here, and_matcher and or_matcher are defined as mutually recursive values.  
+
+Inspired by the hint, I understand the matcher could also be regards as an acceptor which is the main idea applied in and_matcher and or_matcher. 
+
+For and_matcher, it first matches the first symbol in right hand side. There are two cases: the symbol is terminal then it will call the terminal_matcher; the symbol is nonterminal then it will call the or_matcher. In both cases, the acceptor is recursively made up by and_matcher with the left symnols. The Ocaml code is as the following:
+
+and_matcher left_symbols given_acceptor grammr_rules
+
+Basically, and_matcher needs five arguments in total but the last two arguments are exactly derivation and fragment. So the new function is actually an acceptor.
+
+For or_matcher, alternative list is the list which is first made up by right hand sides. If the first right hand side doesn¡¯t match the fragment, it will be removed and or_matcher will be recursively called with the list of left right hand sides. 
+
+Based on the three functions, the prefix parser begins with calling or_matcher on the initial expression. 
+
+I considered using the same method as the hint by creating a function make_matcher which will create matchers based on the arguments. But it¡¯s hard since the terminal_matcher, and_matcher and or_matcher have different arguments. By TA¡¯s advice, we need to create four matchers by adding nonterminal_matcher. Whereas it seems pointless since and_matcher and or_macher could handle all cases for nonterminal symbol.
+
+The weakness is apparent. If the grammar is not well designed, the prefix parser will lead to an infinite loop. For example we have the following grammar:
+
+N Expr -> N Expr + N Binop + T ¡°1¡±
+N Expr -> T ¡°2¡±
+
+Thus, for each rule, nonterminal symbol cannot be the first element in the right hand side. 
