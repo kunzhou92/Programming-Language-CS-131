@@ -1,4 +1,4 @@
-# Filter Blind-alley Rules 
+# Fixpoints and grammar filters
 
 Blind-alley rules is grammar rules for which it is impossible to derive a string of terminal symbols.
 
