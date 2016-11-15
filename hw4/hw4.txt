@@ -1,0 +1,7 @@
+The following is my assumptions:
+1. An error token cannot be part of a word.
+2. If a word is followed by zero or more spaces, followed by an error token, it should omit the word, the spaces, and the error token.
+3. If merely a space is follwoed by an error token, it should be left as it is.
+Example:
+[#, error] -> [#, error]
+[a, b, #, error, error] -> [error]

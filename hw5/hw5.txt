@@ -1,0 +1,7 @@
+I have defined all twelve procedures required. All cases can succeed on those procedures.
+
+null-ld?: If an object which is not listdiff is passed, null-ld? may not check the type and cause an error.
+cons-ld: Uses cons twice in the procedure.
+length-ld: It is not tailed recursion. Inside the procedure, a help function could be defined to achieve tailed recursion
+listdiff ->list: It is not tailed recursion
+
